@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Untitled</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Премия «Золотая вилка» — Голосование</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold-primary: #f5d061;
+            --gold-secondary: #e6b800;
+            --gold-light: #fff2b2;
+            --gold-dark: #8a6d1c;
+            --bg-dark: #090b10;
+            --glass-bg: rgba(22, 27, 38, 0.65);
+            --glass-border: rgba(245, 208, 97, 0.3);
+            --glass-glow: rgba(245, 208, 97, 0.15);
+            --text-main: #f8f9fa;
+            --text-muted: #a0aec0;
+            --error-color: #ff6b6b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Анимированный фон и минералы */
+        .background-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(138, 109, 28, 0.22) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, #0d1117 0%, #050608 100%);
+        }
+
+        .mineral {
+            position: fixed;
+            border-radius: 35% 65% 60% 40% / 30% 45% 55% 70%;
+            background: linear-gradient(135deg, rgba(245, 208, 97, 0.12), rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(245, 208, 97, 0.25);
+            box-shadow: inset 0 0 20px rgba(245, 208, 97, 0.1);
+            z-index: -1;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        .mineral-1 {
+            width: 280px;
+            height: 280px;
+            top: -60px;
+            left: -60px;
+            animation-duration: 22s;
+        }
+
+        .mineral-2 {
+            width: 340px;
+            height: 340px;
+            bottom: -90px;
+            right: -90px;
+            animation-duration: 26s;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            50% { transform: translate(35px, 45px) rotate(15deg) scale(1.05); }
+            100% { transform: translate(-25px, 25px) rotate(-12deg) scale(0.95); }
+        }
+
+        /* Карточка Liquid Glass */
+        .glass-card {
+            width: 100%;
+            max-width: 650px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            padding: 40px 35px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15),
+                0 0 35px var(--glass-glow);
+            position: relative;
+        }
+
+        .gold-title {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, var(--gold-light) 40%, var(--gold-primary) 70%, var(--gold-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 15px;
+            letter-spacing: 1.5px;
+        }
+
+        h1.gold-title { font-size: 2.2rem; line-height: 1.2; }
+        h2.gold-title { font-size: 1.5rem; line-height: 1.3; text-align: left; }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .hint {
+            color: var(--gold-primary);
+            font-size: 0.85rem;
+            margin-top: -4px;
+            margin-bottom: 10px;
+            display: block;
+            font-weight: 600;
+        }
+
+        .error-msg {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            background: rgba(10, 14, 23, 0.65);
+            border: 1px solid rgba(245, 208, 97, 0.3);
+            border-radius: 14px;
+            padding: 16px 20px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 18px rgba(245, 208, 97, 0.35), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            background: rgba(15, 20, 32, 0.85);
+        }
+
+        input.invalid {
+            border-color: var(--error-color) !important;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px 28px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-primary), var(--gold-secondary));
+            color: #090b10;
+            box-shadow: 0 6px 20px rgba(230, 184, 0, 0.35);
+        }
+
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 208, 97, 0.5);
+            background: linear-gradient(135deg, var(--gold-light), var(--gold-primary));
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 14px;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            color: #fff;
+            letter-spacing: 0.5px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-insta { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .btn-tg { background: linear-gradient(135deg, #0088cc, #006699); }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .step { display: none; }
+        .step.active { display: block; }
+
+        @media (max-width: 480px) {
+            .glass-card { padding: 30px 20px; }
+            h1.gold-title { font-size: 1.8rem; }
+            h2.gold-title { font-size: 1.3rem; }
+            .btn-container { flex-direction: column-reverse; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background-canvas"></div>
+    <div class="mineral mineral-1"></div>
+    <div class="mineral mineral-2"></div>
+
+    <div class="glass-card">
+
+        <!-- Экран 1: Приветствие -->
+        <div class="step active" id="step1">
+            <h1 class="gold-title">Золотая Вилка</h1>
+            <p class="subtitle">Совсем скоро пройдёт концерт-награждение «Золотая вилка»! Кому же достанутся номинации? Решите Вы!</p>
+            <div class="btn-container">
+                <button class="btn btn-gold" onclick="nextStep(2)">Начать голосование</button>
+            </div>
+        </div>
+
+        <!-- Экран 2: Вопрос 1 -->
+        <div class="step" id="step2">
+            <h2 class="gold-title">1. Значимая поддержка</h2>
+            <p class="subtitle" style="text-align: left; margin-bottom: 20px;">Поддержка какого преподавателя/чей совет оказались для Вас самыми значимыми?</p>
+            
+            <div class="input-group">
+                <label>Преподаватели *</label>
+                <span class="hint">(До 3 преподавателей)</span>
+                <input type="text" id="q1_teachers" placeholder="Введите ФИО преподавателей...">
+                <div class="error-msg" id="err_q1">Впишите ФИО преподавателя</div>
+            </div>
+
+            <div class="input-group">
+                <label>Почему?</label>
+                <span class="hint" style="color: var(--text-muted); font-weight: normal;">(заполнение не обязательно)</span>
+                <textarea id="q1_reason" placeholder="Поделитесь вашим мнением..."></textarea>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-gold" onclick="validateAndNext('q1_teachers', 'err_q1', 3)">Далее</button>
+            </div>
+        </div>
+
+        <!-- Экран 3: Вопрос 2 -->
+        <div class="step" id="step3">
+            <h2 class="gold-title">2. Увлекательная подача</h2>
+            <p class="subtitle" style="text-align: left; margin-bottom: 20px;">Чья подача завлекает Вас не пропускать ни одного слова преподавателя, слушая материал от начала до конца?</p>
+            
+            <div class="input-group">
+                <label>Преподаватели *</label>
+                <span class="hint">(До 3 преподавателей)</span>
+                <input type="text" id="q2_teachers" placeholder="Введите ФИО преподавателей...">
+                <div class="error-msg" id="err_q2">Впишите ФИО преподавателя</div>
+            </div>
+
+            <div class="input-group">
+                <label>Почему?</label>
+                <span class="hint" style="color: var(--text-muted); font-weight: normal;">(заполнение не обязательно)</span>
+                <textarea id="q2_reason" placeholder="Поделитесь вашим мнением..."></textarea>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-outline" onclick="nextStep(2)">Назад</button>
+                <button class="btn btn-gold" onclick="validateAndNext('q2_teachers', 'err_q2', 4)">Далее</button>
+            </div>
+        </div>
+
+        <!-- Экран 4: Вопрос 3 -->
+        <div class="step" id="step4">
+            <h2 class="gold-title">3. Профессиональный ориентир</h2>
+            <p class="subtitle" style="text-align: left; margin-bottom: 20px;">На образ какого преподавателя Вы равняетесь, когда представляете себя в будущей профессиональной деятельности?</p>
+            
+            <div class="input-group">
+                <label>Преподаватели *</label>
+                <span class="hint">(До 3 преподавателей)</span>
+                <input type="text" id="q3_teachers" placeholder="Введите ФИО преподавателей...">
+                <div class="error-msg" id="err_q3">Впишите ФИО преподавателя</div>
+            </div>
+
+            <div class="input-group">
+                <label>Почему?</label>
+                <span class="hint" style="color: var(--text-muted); font-weight: normal;">(заполнение не обязательно)</span>
+                <textarea id="q3_reason" placeholder="Поделитесь вашим мнением..."></textarea>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-outline" onclick="nextStep(3)">Назад</button>
+                <button class="btn btn-gold" onclick="validateAndNext('q3_teachers', 'err_q3', 5)">Далее</button>
+            </div>
+        </div>
+
+        <!-- Экран 5: Вопрос 4 -->
+        <div class="step" id="step5">
+            <h2 class="gold-title">4. Ваша номинация</h2>
+            <p class="subtitle" style="text-align: left; margin-bottom: 20px;">Если бы Вы были организатором нашего мероприятия и у Вас была возможность ввести специальную номинацию для одного из преподавателей, кто бы это был и как бы звучало её название?</p>
+            
+            <div class="input-group">
+                <label>Своя номинация</label>
+                <span class="hint" style="color: var(--text-muted); font-weight: normal;">(До 3 преподавателей, заполнение не обязательно)</span>
+                <textarea id="q4_nomination" placeholder="Укажите преподавателя и название номинации..."></textarea>
+            </div>
+
+            <div class="btn-container">
+                <button class="btn btn-outline" onclick="nextStep(4)">Назад</button>
+                <button class="btn btn-gold" id="submitBtn" onclick="submitForm()">Завершить</button>
+            </div>
+        </div>
+
+        <!-- Экран 6: Финал -->
+        <div class="step" id="step6">
+            <h1 class="gold-title">Спасибо за Ваш голос!</h1>
+            <p class="subtitle">Переходите в наши социальные сети:</p>
+            
+            <div style="margin-top: 25px;">
+                <a href="https://www.instagram.com/ipsy_bspu?dlrf=MTVjOTJ1cWlnZGdoOA==" target="_blank" class="social-btn btn-insta">
+                    Instagram Института Психологии
+                </a>
+                <a href="https://t.me/ipsu_bspy" target="_blank" class="social-btn btn-tg">
+                    Telegram-канал
+                </a>
+            </div>
+        </div>
+
+        <!-- Экран 7: Повторный вход -->
+        <div class="step" id="alreadyVoted">
+            <h1 class="gold-title">Упс! Ваш голос уже учтён</h1>
+            <p class="subtitle">Вы уже проходили данное голосование. Переходите в наши социальные сети:</p>
+            <div style="margin-top: 25px;">
+                <a href="https://www.instagram.com/ipsy_bspu?dlrf=MTVjOTJ1cWlnZGdoOA==" target="_blank" class="social-btn btn-insta">
+                    Instagram Института Психологии
+                </a>
+                <a href="https://t.me/ipsu_bspy" target="_blank" class="social-btn btn-tg">
+                    Telegram-канал
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var BOT_TOKEN = "9288489544:AAF8_UxAODk9YfWAq7MFX1FB9xam3GR6o_c";
+        var CHAT_ID = "-5415226773";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (localStorage.getItem('golden_fork_voted') === 'true') {
+                showSlide('alreadyVoted');
+            }
+        });
+
+        function showSlide(slideId) {
+            var steps = document.querySelectorAll('.step');
+            for (var i = 0; i < steps.length; i++) {
+                steps[i].classList.remove('active');
+            }
+            document.getElementById(slideId).classList.add('active');
+        }
+
+        function nextStep(num) {
+            showSlide('step' + num);
+        }
+
+        function validateAndNext(inputId, errorId, nextNum) {
+            var input = document.getElementById(inputId);
+            var err = document.getElementById(errorId);
+            if (!input.value.trim()) {
+                input.classList.add('invalid');
+                err.style.display = 'block';
+            } else {
+                input.classList.remove('invalid');
+                err.style.display = 'none';
+                nextStep(nextNum);
+            }
+        }
+
+        function submitForm() {
+            var btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+
+            var q1T = document.getElementById('q1_teachers').value.trim();
+            var q1R = document.getElementById('q1_reason').value.trim() || '—';
+            var q2T = document.getElementById('q2_teachers').value.trim();
+            var q2R = document.getElementById('q2_reason').value.trim() || '—';
+            var q3T = document.getElementById('q3_teachers').value.trim();
+            var q3R = document.getElementById('q3_reason').value.trim() || '—';
+            var q4N = document.getElementById('q4_nomination').value.trim() || '—';
+
+            var textMsg = "НОВЫЙ ГОЛОС — ЗОЛОТАЯ ВИЛКА\n\n" +
+                "1. Поддержка: " + q1T + "\nПочему: " + q1R + "\n\n" +
+                "2. Подача: " + q2T + "\nПочему: " + q2R + "\n\n" +
+                "3. Ориентир: " + q3T + "\nПочему: " + q3R + "\n\n" +
+                "4. Номинация: " + q4N;
+
+            fetch("https://api.telegram.org/bot" + BOT_TOKEN + "/sendMessage", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: textMsg
+                })
+            })
+            .then(function(res) {
+                if (res.ok) {
+                    localStorage.setItem('golden_fork_voted', 'true');
+                    showSlide('step6');
+                } else {
+                    alert("Ошибка отправки. Убедитесь, что бот добавлен в группу.");
+                    btn.disabled = false;
+                }
+            })
+            .catch(function(err) {
+                alert("Ошибка сети при отправке.");
+                btn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
